@@ -1,4 +1,4 @@
-package com.fawry.entity;
+package com.fawry.model;
 
 public class Motorbike implements Vehicle {
     @Override

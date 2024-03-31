@@ -3,7 +3,8 @@ package com.fawry;
 import java.util.*;
 import java.util.concurrent.*;
 
-import com.fawry.entity.Vehicle;
+import com.fawry.model.Vehicle;
+import com.fawry.model.VehicleType;
 
 public class TollCalculator {
 
@@ -44,12 +45,12 @@ public class TollCalculator {
         if (vehicle == null)
             return false;
         String vehicleType = vehicle.getType();
-        return vehicleType.equals(TollFreeVehicles.MOTORBIKE.getType()) ||
-                vehicleType.equals(TollFreeVehicles.TRACTOR.getType()) ||
-                vehicleType.equals(TollFreeVehicles.EMERGENCY.getType()) ||
-                vehicleType.equals(TollFreeVehicles.DIPLOMAT.getType()) ||
-                vehicleType.equals(TollFreeVehicles.FOREIGN.getType()) ||
-                vehicleType.equals(TollFreeVehicles.MILITARY.getType());
+        return vehicleType.equals(VehicleType.MOTORBIKE.getType()) ||
+                vehicleType.equals(VehicleType.TRACTOR.getType()) ||
+                vehicleType.equals(VehicleType.EMERGENCY.getType()) ||
+                vehicleType.equals(VehicleType.DIPLOMAT.getType()) ||
+                vehicleType.equals(VehicleType.FOREIGN.getType()) ||
+                vehicleType.equals(VehicleType.MILITARY.getType());
     }
 
     public int getTollFee(final Date date, Vehicle vehicle) {
@@ -106,24 +107,5 @@ public class TollCalculator {
             }
         }
         return false;
-    }
-
-    private enum TollFreeVehicles {
-        MOTORBIKE("Motorbike"),
-        TRACTOR("Tractor"),
-        EMERGENCY("Emergency"),
-        DIPLOMAT("Diplomat"),
-        FOREIGN("Foreign"),
-        MILITARY("Military");
-
-        private final String type;
-
-        TollFreeVehicles(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
     }
 }
