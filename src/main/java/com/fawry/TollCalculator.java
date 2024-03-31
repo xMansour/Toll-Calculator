@@ -1,27 +1,49 @@
 package com.fawry;
 
+import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.Stream;
 
+import com.fawry.exception.NoDateEnteredException;
 import com.fawry.model.Vehicle;
 import com.fawry.model.VehicleType;
+import com.fawry.service.TollFreeDatesService;
+import com.fawry.service.TollFreeVehicleService;
 
 public class TollCalculator {
+    private static final int DAILY_MAXIMUM_FEE = 60; // SEK
+    private static final LocalTime MORNING_RUSH_HOUR_START = LocalTime.of(6, 30);
+    private static final LocalTime MORNING_RUSH_HOUR_END = LocalTime.of(7, 0);
+    private static final LocalTime EVENING_RUSH_HOUR_START = LocalTime.of(15, 30);
+    private static final LocalTime EVENING_RUSH_HOUR_END = LocalTime.of(17, 0);
 
     /**
-     * Calculate the total toll fee for one day
+     * Calculates the total toll fee for a vehicle on a specific day.
      *
-     * @param vehicle - the vehicle
-     * @param dates   - date and time of all passes on one day
-     * @return - the total toll fee for that day
+     * @param vehicle the vehicle
+     * @param dates   the list of dates and times for the vehicle's passes
+     * @return the total toll fee for the day
+     * @throws NoDateEnteredException if no dates are provided
      */
-    public int getTollFee(Vehicle vehicle, Date... dates) {
-        Date intervalStart = dates[0];
-        int totalFee = 0;
+    public int calculateTotalFees(Vehicle vehicle, Date... dates) {
+        Date firstDate = Arrays.stream(dates).findFirst()
+                .orElseThrow(() -> new NoDateEnteredException("No Date Entered!"));
+        int firstDateFee = getTollFee(firstDate, vehicle);
+
+        int totalFee = firstDateFee;
+        int dailyMaximum = 60; // SEK
+
+        // if (totalFee >= dailyMaximum) {
+        // return dailyMaximum;
+        // }
+
+        Arrays.stream(dates).skip(1).forEach(date -> {
+            int fee = getTollFee(date, vehicle);
+        });
+
         for (Date date : dates) {
             int nextFee = getTollFee(date, vehicle);
-            int tempFee = getTollFee(intervalStart, vehicle);
-
             TimeUnit timeUnit = TimeUnit.MINUTES;
             long diffInMillies = date.getTime() - intervalStart.getTime();
             long minutes = timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
@@ -39,22 +61,11 @@ public class TollCalculator {
         if (totalFee > 60)
             totalFee = 60;
         return totalFee;
-    }
-
-    private boolean isTollFreeVehicle(Vehicle vehicle) {
-        if (vehicle == null)
-            return false;
-        String vehicleType = vehicle.getType();
-        return vehicleType.equals(VehicleType.MOTORBIKE.getType()) ||
-                vehicleType.equals(VehicleType.TRACTOR.getType()) ||
-                vehicleType.equals(VehicleType.EMERGENCY.getType()) ||
-                vehicleType.equals(VehicleType.DIPLOMAT.getType()) ||
-                vehicleType.equals(VehicleType.FOREIGN.getType()) ||
-                vehicleType.equals(VehicleType.MILITARY.getType());
+        return 0;
     }
 
     public int getTollFee(final Date date, Vehicle vehicle) {
-        if (isTollFreeDate(date) || isTollFreeVehicle(vehicle))
+        if (TollFreeDatesService.isTollFreeDate(date) || TollFreeVehicleService.isTollFreeVehicle(vehicle))
             return 0;
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
@@ -81,31 +92,5 @@ public class TollCalculator {
             return 8;
         else
             return 0;
-    }
-
-    private Boolean isTollFreeDate(Date date) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY)
-            return true;
-
-        if (year == 2013) {
-            if (month == Calendar.JANUARY && day == 1 ||
-                    month == Calendar.MARCH && (day == 28 || day == 29) ||
-                    month == Calendar.APRIL && (day == 1 || day == 30) ||
-                    month == Calendar.MAY && (day == 1 || day == 8 || day == 9) ||
-                    month == Calendar.JUNE && (day == 5 || day == 6 || day == 21) ||
-                    month == Calendar.JULY ||
-                    month == Calendar.NOVEMBER && day == 1 ||
-                    month == Calendar.DECEMBER && (day == 24 || day == 25 || day == 26 || day == 31)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
