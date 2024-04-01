@@ -11,8 +11,6 @@ public abstract class TollFreeVehicleService {
             VehicleType.FOREIGN.getType(), VehicleType.MILITARY.getType());
 
     public static boolean isTollFreeVehicle(Vehicle vehicle) {
-        if (vehicle == null)
-            return false;
-        return vehicleTypes.contains(vehicle.getType());
+        return vehicle != null && vehicleTypes.contains(vehicle.getType());
     }
 }
