@@ -30,7 +30,7 @@ public class TollCalculatorImpl implements TollCalculator {
 
         for (LocalDateTime date : dates) {
             int nextFee = timeBasedFeeService.getTollFee(date, vehicle);
-            long minutesSinceStart = Duration.between(dates[0], date).toMinutes();
+            long minutesSinceStart = Duration.between(dates[0], date).toMinutes();  // Duration between the first date and the current one in minutes
             if (minutesSinceStart <= FEE_INTERVAL) {
                 currentFee = Math.max(currentFee, nextFee); // Tracks the maximum fee within an hour
             } else {
