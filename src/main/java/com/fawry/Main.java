@@ -12,15 +12,17 @@ public class Main {
         Vehicle car = new Car();
 
         System.out.println("TOTAL FEES: " + tollCalculator.calculateTotalFees(car,
-                LocalDateTime.of(2018, Month.JUNE, 25, 6, 0)));
+                LocalDateTime.of(2018, Month.JUNE, 25, 6, 0), LocalDateTime.of(2018, Month.JUNE, 25, 6, 15),
+                LocalDateTime.of(2018, Month.JUNE, 25, 6, 30), LocalDateTime.of(2018, Month.JUNE, 25, 7, 30),
+                LocalDateTime.of(2018, Month.JUNE, 25, 8, 15)));
 
-        System.out.println("TOTAL FEES: " + tollCalculator.calculateTotalFees(car,
-                LocalDateTime.of(2018, Month.JUNE, 25, 15, 15)));
+        // System.out.println("TOTAL FEES: " + tollCalculator.calculateTotalFees(car,
+        // LocalDateTime.of(2018, Month.JUNE, 25, 15, 15)));
 
-        System.out.println("TOTAL FEES: " + tollCalculator.calculateTotalFees(car,
-                LocalDateTime.of(2018, Month.JUNE, 25, 15, 45)));
+        // System.out.println("TOTAL FEES: " + tollCalculator.calculateTotalFees(car,
+        // LocalDateTime.of(2018, Month.JUNE, 25, 15, 45)));
 
-        System.out.println("TOTAL FEES: " + tollCalculator.calculateTotalFees(car,
-                LocalDateTime.of(2018, Month.JUNE, 25, 18, 10)));
+        // System.out.println("TOTAL FEES: " + tollCalculator.calculateTotalFees(car,
+        // LocalDateTime.of(2018, Month.JUNE, 25, 18, 10)));
     }
 }
