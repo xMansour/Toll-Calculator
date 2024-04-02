@@ -47,4 +47,10 @@ public class TollFreeDatesServiceTest {
         LocalDateTime date = LocalDateTime.of(2013, Month.MARCH, 27, 6, 0);
         assertFalse(TollFreeDatesService.isTollFreeDate(date));
     }
+
+    @Test
+    public void july2013ShouldReturnTrue() {
+        LocalDateTime date = LocalDateTime.of(2013, Month.JULY, 27, 6, 0);
+        assertTrue(TollFreeDatesService.isTollFreeDate(date));
+    }
 }

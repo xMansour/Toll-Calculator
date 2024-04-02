@@ -39,6 +39,6 @@ public class TollFreeVehicleServiceTest {
 
     @Test
     public void nullShouldReturnFalse() {
-        assertFalse(tollFreeDatesService.isTollFreeVehicle(car));
+        assertFalse(tollFreeDatesService.isTollFreeVehicle(null));
     }
 }

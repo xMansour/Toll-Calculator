@@ -55,9 +55,38 @@ public class TollCalculatorTest {
     }
 
     @Test
+    public void motorbikeAtApril2nd6AmShouldReturn8SEKFee() {
+        LocalDateTime date = LocalDateTime.of(2024, Month.APRIL, 2, 6, 0);
+        assertEquals(0, tollCalculator.calculateTotalFees(motorbike, date));
+    }
+
+    @Test
     public void carAtWeekendShouldReturnZeroFee() {
         LocalDateTime date = LocalDateTime.of(2024, Month.MARCH, 31, 6, 0);
         assertEquals(0, tollCalculator.calculateTotalFees(car, date));
+    }
+
+    @Test
+    public void motorbikeAtWeekendShouldReturnZeroFee() {
+        LocalDateTime date = LocalDateTime.of(2024, Month.APRIL, 2, 6, 0);
+        assertEquals(0, tollCalculator.calculateTotalFees(motorbike, date));
+    }
+
+    @Test
+    public void carAtMultipleDatesSameHourShouldReturnHighestFee() {
+        LocalDateTime date = LocalDateTime.of(2024, Month.APRIL, 2, 6, 0); // The Fee for 6 AM is 8
+        LocalDateTime secondDate = LocalDateTime.of(2024, Month.APRIL, 2, 6, 45); // The Fee for 6:45 AM is 13 since
+                                                                                  // it's a rush hour
+        assertEquals(13, tollCalculator.calculateTotalFees(car, date, secondDate));
+
+    }
+
+    @Test
+    public void carAtMultipleDatesDiffrentHourShouldReturnSumOfFees() {
+        LocalDateTime date = LocalDateTime.of(2024, Month.APRIL, 2, 6, 0); // The Fee for 6 AM is 8
+        LocalDateTime secondDate = LocalDateTime.of(2024, Month.APRIL, 2, 7, 30); // Has a Fee of 18 since it's a rush
+                                                                                  // hour
+        assertEquals(26, tollCalculator.calculateTotalFees(car, date, secondDate));
     }
 
 }
