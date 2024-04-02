@@ -7,7 +7,6 @@ import java.util.NavigableMap;
 import java.util.Optional;
 import java.util.TreeMap;
 
-
 import com.fawry.model.Vehicle;
 
 public class TimeBasedFeeServiceImpl implements TimeBasedFeeService {

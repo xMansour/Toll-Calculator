@@ -42,7 +42,7 @@ public class AppConfig {
         return new Car();
     }
 
-    @Bean("motorBike")
+    @Bean("motorbike")
     public Vehicle motorBike() {
         return new Motorbike();
     }

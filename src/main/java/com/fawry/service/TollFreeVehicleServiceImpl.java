@@ -2,7 +2,6 @@ package com.fawry.service;
 
 import java.util.Set;
 
-
 import com.fawry.model.Vehicle;
 import com.fawry.model.VehicleType;
 

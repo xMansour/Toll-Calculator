@@ -19,7 +19,7 @@ import com.fawry.model.Vehicle;
 public class TollCalculatorTest {
     private static TollCalculator tollCalculator;
     private static Vehicle car;
-    private static Vehicle motorBike;
+    private static Vehicle motorbike;
 
     @BeforeClass
     public static void setup() {
@@ -29,7 +29,7 @@ public class TollCalculatorTest {
 
         tollCalculator = context.getBean(TollCalculator.class);
         car = context.getBean("car", Vehicle.class);
-        motorBike = context.getBean("motorBike", Vehicle.class);
+        motorbike = context.getBean("motorbike", Vehicle.class);
     }
 
     @Test
