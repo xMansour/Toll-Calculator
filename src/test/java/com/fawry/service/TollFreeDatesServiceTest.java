@@ -13,24 +13,24 @@ public class TollFreeDatesServiceTest {
     @Test
     public void saturdayShouldReturnTrue() {
         LocalDateTime date = LocalDateTime.of(2024, Month.MARCH, 30, 6, 0);
-        assertTrue(TollFreeDatesService.isTollFreeDate(date));
+        assertTrue(TollFreeDatesServiceImpl.isTollFreeDate(date));
     }
 
     @Test
     public void sundayShouldReturnTrue() {
         LocalDateTime date = LocalDateTime.of(2024, Month.MARCH, 31, 6, 0);
-        assertTrue(TollFreeDatesService.isTollFreeDate(date));
+        assertTrue(TollFreeDatesServiceImpl.isTollFreeDate(date));
     }
 
     @Test
     public void march28th2013ShouldReturnTrue() {
         LocalDateTime date = LocalDateTime.of(2013, Month.MARCH, 28, 6, 0);
-        assertTrue(TollFreeDatesService.isTollFreeDate(date));
+        assertTrue(TollFreeDatesServiceImpl.isTollFreeDate(date));
     }
 
     @Test
     public void march27th2013ShouldReturnFalse() {
         LocalDateTime date = LocalDateTime.of(2013, Month.MARCH, 27, 6, 0);
-        assertFalse(TollFreeDatesService.isTollFreeDate(date));
+        assertFalse(TollFreeDatesServiceImpl.isTollFreeDate(date));
     }
 }

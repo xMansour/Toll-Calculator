@@ -14,7 +14,7 @@ import com.fawry.model.Car;
 import com.fawry.model.Vehicle;
 
 public class TollCalculatorTest {
-    private TollCalculator tollCalculator = new TollCalculator();
+    private TollCalculatorImpl tollCalculator = new TollCalculatorImpl();
 
     @Test
     public void emptyDatesShouldThrowNoDateEnteredException() {
