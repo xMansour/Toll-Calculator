@@ -9,6 +9,11 @@ import java.util.TreeMap;
 
 import com.fawry.model.Vehicle;
 
+/**
+ * Implementation of the {@link TimeBasedFeeService} interface, responsible for
+ * providing toll fees
+ * based on date and vehicle type.
+ */
 public class TimeBasedFeeServiceImpl implements TimeBasedFeeService {
 
     private final TollFreeDatesService tollFreeDatesService;

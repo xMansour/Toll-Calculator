@@ -15,33 +15,75 @@ import com.fawry.service.TollFreeDatesServiceImpl;
 import com.fawry.service.TollFreeVehicleService;
 import com.fawry.service.TollFreeVehicleServiceImpl;
 
+/**
+ * Spring configuration class responsible for creating and wiring beans for the
+ * toll calculation application.
+ *
+ * This class uses Spring's {@link Configuration} and {@link Bean} annotations
+ * to define beans and their dependencies for dependency injection.
+ * It encapsulates the configuration of core services and components for toll
+ * calculation logic.
+ */
 @Configuration
 public class AppConfig {
+
+    /**
+     * Creates a {@link TimeBasedFeeService} bean, configuring it with dependencies
+     * on {@link TollFreeDatesService} and {@link TollFreeVehicleService}.
+     *
+     * @return The configured {@link TimeBasedFeeServiceImpl} instance.
+     */
     @Bean
     public TimeBasedFeeService timeBasedFeeService() {
         return new TimeBasedFeeServiceImpl(tollFreeDatesService(), tollFreeVehicleService());
     }
 
+    /**
+     * Creates a {@link TollFreeDatesService} bean.
+     * 
+     * @return The default {@link TollFreeDatesServiceImpl} instance.
+     */
     @Bean
     public TollFreeDatesService tollFreeDatesService() {
         return new TollFreeDatesServiceImpl();
     }
 
+    /**
+     * Creates a {@link TollFreeVehicleService} bean.
+     *
+     * @return The default {@link TollFreeVehicleServiceImpl} instance.
+     */
     @Bean
     public TollFreeVehicleService tollFreeVehicleService() {
         return new TollFreeVehicleServiceImpl();
     }
 
+    /**
+     * Creates a {@link TollCalculator} bean, injecting a
+     * {@link TimeBasedFeeService} dependency.
+     *
+     * @return The configured {@link TollCalculatorImpl} instance.
+     */
     @Bean
     public TollCalculator tollCalculator() {
         return new TollCalculatorImpl(timeBasedFeeService());
     }
 
+    /**
+     * Creates a {@link Vehicle} bean representing a car, named "car".
+     *
+     * @return A {@link Car} instance.
+     */
     @Bean("car")
     public Vehicle car() {
         return new Car();
     }
 
+    /**
+     * Creates a {@link Vehicle} bean representing a motorbike, named "motorbike".
+     *
+     * @return A {@link Motorbike} instance.
+     */
     @Bean("motorbike")
     public Vehicle motorBike() {
         return new Motorbike();

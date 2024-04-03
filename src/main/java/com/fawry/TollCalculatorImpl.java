@@ -3,12 +3,15 @@ package com.fawry;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-
 import com.fawry.exception.NoDateEnteredException;
 import com.fawry.exception.NoVehicleEnteredException;
 import com.fawry.model.Vehicle;
 import com.fawry.service.TimeBasedFeeService;
 
+/**
+ * Implementation of the {@link TollCalculator} interface, responsible for
+ * calculating toll fees for vehicles.
+ */
 public class TollCalculatorImpl implements TollCalculator {
     private static final int DAILY_MAXIMUM_FEE = 60; // SEK (Swedish Krona)
     private static final int FEE_INTERVAL = 60; // An hour
@@ -30,7 +33,8 @@ public class TollCalculatorImpl implements TollCalculator {
 
         for (LocalDateTime date : dates) {
             int nextFee = timeBasedFeeService.getTollFee(date, vehicle);
-            long minutesSinceStart = Duration.between(dates[0], date).toMinutes();  // Duration between the first date and the current one in minutes
+            long minutesSinceStart = Duration.between(dates[0], date).toMinutes(); // Duration between the first date
+                                                                                   // and the current one in minutes
             if (minutesSinceStart <= FEE_INTERVAL) {
                 currentFee = Math.max(currentFee, nextFee); // Tracks the maximum fee within an hour
             } else {
