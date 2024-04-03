@@ -1,32 +1,37 @@
-# Toll fee calculator 1.0
-A calculator for vehicle toll fees.
+# Toll Fee Calculator (v1.0)
 
-* Make sure you read these instructions carefully
-* The current code base is in Java
+## Introduction
+This project implements a toll fee calculator in Sweden for vehicles, considering time of day, vehicle type, and other factors.
 
-## Background
-Our city has decided to implement toll fees in order to reduce traffic congestion during rush hours.
-This is the current draft of the requirements:
- 
-* Fees will differ between 8 SEK and 18 SEK, depending on the time of day 
-* Rush-hour traffic will render the highest fee
-* The maximum fee for one day is 60 SEK
-* A vehicle should only be charged once an hour
-  * In the case of multiple fees in the same hour period, the highest one applies.
-* Some vehicle types are fee-free
-* Weekends and holidays are fee-free
+## Requirements
+* Fees: SEK(Swedish Krona) 8-18 based on time (rush hour = highest fee)
+* Daily Maximum: SEK(Swedish Krona) 60 per vehicle
+* Intra-Hour Charging: Only charged once per hour (highest fee applies)
+* Toll-Free Vehicles: Specific vehicle types and weekends/holidays
+* Deployment: Multi-region deployment
+* Flexibility: Accepts different dates
 
-## Your assignment
-The last city-developer quit recently, claiming that this solution is production-ready. 
-You are now the new developer for our city - congratulations! 
+## Dependencies
+This project is built with:
+1. Java 17
+2. Maven 3.9.6
+3. spring-core 6.1.5
+4. spring-beans 6.1.5
+5. spring-context 6.1.5
+6. junit 4.13.2
+7. jacoco 0.8.12.
 
-Your job is to deliver the code and from now on, you are the responsible go-to person for this solution. This is a solution you will have to put your name on. 
+## Installation and Usage
+1. Clone the repository: ```git clone https://your-repository-url.git```
+2.  Navigate to the project directory: ```cd toll-fee-calculator```
+3. Install dependencies: ```mvn install```
+4. Run unit tests: ```mvn test```
+5. Generate code coverage report: ```mvn jacoco:prepare-agent test install jacoco:report``` This will generate a code coverage report in the target/site/jacoco directory.
 
-## Instructions
-* You can make any modifications that increase readability, scalability, maintainability, and Performance.
-* Makesure you Apply Software clean code and Architecture Design Principles   
-* Write Unit tests that cover different cases.
-* The app will be deployed across multiple regions.
-* Assume your app can accept different days.
-* Track and archive system logs
 
+## Unit Tests
+Our toll calculator system is thoroughly tested with a suite of 25 unit tests that cover the entire logic.  
+![Unit Tests](pics/unit_tests.png)
+
+Here's the test coverage report, which could be generated and accessed as mentioned above.  
+![alt text](pics/test_coverage.png)
