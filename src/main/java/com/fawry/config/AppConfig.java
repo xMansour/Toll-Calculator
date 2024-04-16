@@ -2,6 +2,7 @@ package com.fawry.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import com.fawry.TollCalculator;
 import com.fawry.TollCalculatorImpl;
@@ -25,6 +26,8 @@ import com.fawry.service.TollFreeVehicleServiceImpl;
  * calculation logic.
  */
 @Configuration
+@PropertySource(value = "classpath:application.properties")
+@PropertySource(value = "classpath:tollFreeDates-${spring.profiles.active}.properties")
 public class AppConfig {
 
     /**

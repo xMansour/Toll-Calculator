@@ -1,10 +1,12 @@
 package com.fawry.service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.Set;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.beans.factory.annotation.Value;
+
+import com.fawry.utils.DateHelper;
 
 /**
  * Implementation of the {@link TollFreeDatesService} interface, responsible for
@@ -12,25 +14,21 @@ import java.util.Set;
  * specific date is exempt from tolls.
  */
 public class TollFreeDatesServiceImpl implements TollFreeDatesService {
-    private final int YEAR = 2013;
-    private final Set<Month> tollFreeMonths = Set.of(Month.JULY);
+    @Value("${tollFreeDays:None}") // could use .split(',') as like that @Value("#{'${tollFreeDays}'.split(',')}")
+    private String tollFreeDaysString;
+    @Value("${tollFreeMonths:None}")
+    private String tollFreeMonthsString;
+    @Value("${weekends:None}")
+    private String weekendsString;
 
-    private final Set<LocalDate> tollFreeDays = Set.of(LocalDate.of(YEAR, Month.JANUARY, 1),
-            LocalDate.of(YEAR, Month.MARCH, 28),
-            LocalDate.of(YEAR, Month.MARCH, 29),
-            LocalDate.of(YEAR, Month.APRIL, 1),
-            LocalDate.of(YEAR, Month.APRIL, 30),
-            LocalDate.of(YEAR, Month.MAY, 1),
-            LocalDate.of(YEAR, Month.MAY, 8),
-            LocalDate.of(YEAR, Month.MAY, 9),
-            LocalDate.of(YEAR, Month.JUNE, 5),
-            LocalDate.of(YEAR, Month.JUNE, 6),
-            LocalDate.of(YEAR, Month.JUNE, 21),
-            LocalDate.of(YEAR, Month.NOVEMBER, 1),
-            LocalDate.of(YEAR, Month.DECEMBER, 24),
-            LocalDate.of(YEAR, Month.DECEMBER, 25),
-            LocalDate.of(YEAR, Month.DECEMBER, 26),
-            LocalDate.of(YEAR, Month.DECEMBER, 31));
+    // TODO:: This would throw a NullPointerException because beans weren't
+    // initialized properly. Weired because @Value should be processed befoare class
+    // variables are initialized. Needs research.
+    // private Set<Month> tollFreeMonths =
+    // DateParser.getTollFreeMonths(tollFreeMonthsString);
+    // private Set<String> tollFreeDays =
+    // DateParser.getTollFreeDays(tollFreeDaysString);
+    // private Set<DayOfWeek> weekends = DateParser.getWeekends(weekendsString);
 
     /**
      * Checks if the provided date falls on a Saturday or Sunday.
@@ -44,13 +42,15 @@ public class TollFreeDatesServiceImpl implements TollFreeDatesService {
      * @return True if the date is a Saturday or Sunday, false otherwise.
      */
     private boolean isWeekend(LocalDate date) {
-        return date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY;
+        return DateHelper.getWeekends(weekendsString).contains(date.getDayOfWeek());
     }
 
     @Override
     public boolean isTollFreeDate(LocalDateTime date) {
         LocalDate localDate = date.toLocalDate();
-        return tollFreeMonths.contains(localDate.getMonth()) || tollFreeDays.contains(localDate)
+        String formattedDate = date.toLocalDate().format(DateTimeFormatter.ofPattern("MM-dd"));
+        return DateHelper.getTollFreeMonths(tollFreeMonthsString).contains(localDate.getMonth())
+                || DateHelper.getTollFreeDays(tollFreeDaysString).contains(formattedDate)
                 || isWeekend(localDate);
     }
 }

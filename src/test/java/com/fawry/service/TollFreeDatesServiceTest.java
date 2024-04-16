@@ -18,7 +18,7 @@ import com.fawry.config.AppConfig;
  * {@link TollFreeDatesServiceImpl}.
  */
 public class TollFreeDatesServiceTest {
-    private static TollFreeDatesService TollFreeDatesService;
+    private static TollFreeDatesService tollFreeDatesService;
 
     /**
      * This method is runs before all tests in the class to set up the required
@@ -29,7 +29,7 @@ public class TollFreeDatesServiceTest {
         try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext()) {
             context.register(AppConfig.class);
             context.refresh();
-            TollFreeDatesService = context.getBean(TollFreeDatesService.class);
+            tollFreeDatesService = context.getBean(TollFreeDatesService.class);
         } catch (BeansException | IllegalStateException e) {
             e.printStackTrace();
         }
@@ -44,7 +44,7 @@ public class TollFreeDatesServiceTest {
     @Test
     public void saturdayShouldReturnTrue() {
         LocalDateTime date = LocalDateTime.of(2024, Month.MARCH, 30, 6, 0);
-        assertTrue(TollFreeDatesService.isTollFreeDate(date));
+        assertTrue(tollFreeDatesService.isTollFreeDate(date));
     }
 
     /**
@@ -56,7 +56,7 @@ public class TollFreeDatesServiceTest {
     @Test
     public void sundayShouldReturnTrue() {
         LocalDateTime date = LocalDateTime.of(2024, Month.MARCH, 31, 6, 0);
-        assertTrue(TollFreeDatesService.isTollFreeDate(date));
+        assertTrue(tollFreeDatesService.isTollFreeDate(date));
     }
 
     /**
@@ -69,7 +69,7 @@ public class TollFreeDatesServiceTest {
     @Test
     public void march28th2013ShouldReturnTrue() {
         LocalDateTime date = LocalDateTime.of(2013, Month.MARCH, 28, 6, 0);
-        assertTrue(TollFreeDatesService.isTollFreeDate(date));
+        assertTrue(tollFreeDatesService.isTollFreeDate(date));
     }
 
     /**
@@ -82,7 +82,7 @@ public class TollFreeDatesServiceTest {
     @Test
     public void march27th2013ShouldReturnFalse() {
         LocalDateTime date = LocalDateTime.of(2013, Month.MARCH, 27, 6, 0);
-        assertFalse(TollFreeDatesService.isTollFreeDate(date));
+        assertFalse(tollFreeDatesService.isTollFreeDate(date));
     }
 
     /**
@@ -95,6 +95,6 @@ public class TollFreeDatesServiceTest {
     @Test
     public void july2013ShouldReturnTrue() {
         LocalDateTime date = LocalDateTime.of(2013, Month.JULY, 27, 6, 0);
-        assertTrue(TollFreeDatesService.isTollFreeDate(date));
+        assertTrue(tollFreeDatesService.isTollFreeDate(date));
     }
 }
