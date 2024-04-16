@@ -22,7 +22,7 @@ This project is built with:
 7. jacoco 0.8.12.
 
 ## Installation and Usage
-1. Clone the repository: ```git clone https://your-repository-url.git```
+1. Clone the repository: ```git clone https://github.com/xMansour/Toll-Calculator.git```
 2.  Navigate to the project directory: ```cd toll-fee-calculator```
 3. Install dependencies: ```mvn install```
 4. Run unit tests: ```mvn test```
