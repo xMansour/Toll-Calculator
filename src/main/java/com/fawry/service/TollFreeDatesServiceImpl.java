@@ -1,8 +1,13 @@
 package com.fawry.service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -14,6 +19,8 @@ import com.fawry.utils.DateHelper;
  * specific date is exempt from tolls.
  */
 public class TollFreeDatesServiceImpl implements TollFreeDatesService {
+    private static final Logger LOGGER = Logger.getLogger(TollFreeDatesServiceImpl.class.getName());
+
     @Value("${tollFreeDays:None}") // could use .split(',') as like that @Value("#{'${tollFreeDays}'.split(',')}")
     private String tollFreeDaysString;
     @Value("${tollFreeMonths:None}")
@@ -49,8 +56,10 @@ public class TollFreeDatesServiceImpl implements TollFreeDatesService {
     public boolean isTollFreeDate(LocalDateTime date) {
         LocalDate localDate = date.toLocalDate();
         String formattedDate = date.toLocalDate().format(DateTimeFormatter.ofPattern("MM-dd"));
-        return DateHelper.getTollFreeMonths(tollFreeMonthsString).contains(localDate.getMonth())
+        boolean isTollFree = DateHelper.getTollFreeMonths(tollFreeMonthsString).contains(localDate.getMonth())
                 || DateHelper.getTollFreeDays(tollFreeDaysString).contains(formattedDate)
                 || isWeekend(localDate);
+        LOGGER.log(Level.INFO, "Date: " + formattedDate + ", Toll-free: " + isTollFree);
+        return isTollFree;
     }
 }

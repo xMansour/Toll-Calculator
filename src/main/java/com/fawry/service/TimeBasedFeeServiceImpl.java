@@ -3,6 +3,8 @@ package com.fawry.service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -15,6 +17,8 @@ import com.fawry.utils.TimeBasedFeeHelper;
  * based on date and vehicle type.
  */
 public class TimeBasedFeeServiceImpl implements TimeBasedFeeService {
+    private static final Logger LOGGER = Logger.getLogger(TimeBasedFeeServiceImpl.class.getName());
+
     @Value("${timeBasedFee:None}")
     private String timeBasedFeeString;
     private final TollFreeDatesService tollFreeDatesService;
@@ -28,10 +32,21 @@ public class TimeBasedFeeServiceImpl implements TimeBasedFeeService {
 
     @Override
     public int getTollFee(final LocalDateTime date, Vehicle vehicle) {
-        if (tollFreeDatesService.isTollFreeDate(date) || tollFreeVehicleService.isTollFreeVehicle(vehicle))
+        LOGGER.log(Level.INFO, "Checking toll fee for date: " + date.toString() + ", vehicle: " + vehicle.getType());
+        if (tollFreeDatesService.isTollFreeDate(date)) {
+            LOGGER.log(Level.INFO, "Date is toll-free");
             return 0;
+        }
+        if (tollFreeVehicleService.isTollFreeVehicle(vehicle)) {
+            LOGGER.log(Level.FINE, "Vehicle is toll-free");
+            return 0;
+
+        }
         LocalTime time = date.toLocalTime();
-        return Optional.of(TimeBasedFeeHelper
+        int fee = Optional.of(TimeBasedFeeHelper
                 .getTimeBasedFeeMap(timeBasedFeeString).floorEntry(time).getValue()).orElse(0);
+        LOGGER.log(Level.INFO, "Fee for time: " + time + " is: " + fee);
+
+        return fee;
     }
 }
